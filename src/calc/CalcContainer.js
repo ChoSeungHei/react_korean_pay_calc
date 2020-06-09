@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../style/css/font.css';
+import '../style/css/style.css';
+import {BsArrowCounterclockwise} from 'react-icons/bs';
 
 const CalcContainer = () => {
   const [cate,setCate] = useState('annual');
@@ -9,7 +11,7 @@ const CalcContainer = () => {
   const [nontax,setNontex] = useState('100,000');
   const [depend,setDepend] = useState(1);
   const [youth,setYouth] = useState(0);
-
+  const [result,setResult] = useState(true)
   const switchAnM = (e) => {      //annual or monthly 
     setCate(e.target.value);
     console.log(cate);
@@ -108,8 +110,16 @@ const CalcContainer = () => {
     console.log(temp)
   }
 
+  const handleReset = () => {
+    setCate('annual');
+    setSalary('');
+    setKor('');
+    setNontex('100,000');
+    setDepend(1);
+    setYouth(0);
+  }
   return (
-
+  <div>
     <div className="container">
       <div className="row">
         <div className="col text-center m-5">
@@ -118,7 +128,7 @@ const CalcContainer = () => {
         </div>
       </div>
 
-      <div className="row">
+      <div className="row center_layer">
         <div className="col col-2 text-center">
 
           <div className="btn-group btn-group-toggle " data-toggle="buttons">
@@ -134,28 +144,24 @@ const CalcContainer = () => {
           </div>
 
         </div>
-        <div className="col col-7 text-center ml-4">
-
+        <div className="col col-7 text-center ml-2">
           <input type="text" className="form-control" placeholder="금액을 입력하세요."
             value={salary}
             onChange={handleSalary}
           />
-
         </div>
 
-        
-
       </div>
-      <div className = "row">
+      <div className = "row center_layer">
       <div className="col col-2 text-center"></div>
       
-        <div className="col col-7 ml-4 pt-2 bold">
+        <div className="col col-7 ml-2 pt-2 bold">
           <b>{kor}</b>
         </div>
       </div>
 
-      <div className="row">
-        <div className="col col-3 ml-4 pt-3">
+      <div className="row center_layer">
+        <div className="col col-3 ml-2 pt-3">
           비과세액
         </div>
         <div className="col col-3 pt-3">
@@ -165,8 +171,8 @@ const CalcContainer = () => {
           20세 이하 자녀 수
         </div>
       </div>
-      <div className="row">
-        <div className="col col-3 ml-4 pt-2">
+      <div className="row center_layer">
+        <div className="col col-3 ml-2 pt-2">
           <input type="text" className="form-control" placeholder="최대 월 10만원"
           value={nontax}
           onChange={handleNontax}
@@ -185,7 +191,32 @@ const CalcContainer = () => {
           />
         </div>
       </div>
+      {
+        result ? (
+          <div className="row center_layer card_layer">
+        <div className="col col-12 ml-2 pt-3">
+          <div className="card">
+            <div className="card-body">
+              This is some text within a card body.
+            </div>
+          </div>
+        </div>
+      </div>
+        ):null
+      }
     </div>
+    
+    <div className="col text-center pt-5">
+      <button className="btn btn-secondary mr-2" onClick={handleReset}>
+        <BsArrowCounterclockwise/> 초기화
+      </button>
+
+      <button className="btn btn-info">
+        계산하기
+      </button>
+      
+    </div>  
+  </div>
   );
 }
 
