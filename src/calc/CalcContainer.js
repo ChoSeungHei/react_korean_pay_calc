@@ -8,10 +8,13 @@ const CalcContainer = () => {
   const [cate,setCate] = useState('annual');
   const [salary,setSalary] = useState('');
   const [kor,setKor] = useState('');
-  const [nontax,setNontex] = useState('100,000');
+  const [nontax,setNontex] = useState('1,200,000');
   const [depend,setDepend] = useState(1);
   const [youth,setYouth] = useState(0);
-  const [result,setResult] = useState(true)
+  const [result,setResult] = useState(false);
+
+  const [tax,setTax] = useState([]);
+
   const switchAnM = (e) => {      //annual or monthly 
     setCate(e.target.value);
     console.log(cate);
@@ -52,6 +55,7 @@ const CalcContainer = () => {
     }
 
   }
+
   const handleSalary = (e) => {   //make comma and print korean number
     const re = /^[0-9\b]+$/;
 
@@ -114,10 +118,27 @@ const CalcContainer = () => {
     setCate('annual');
     setSalary('');
     setKor('');
-    setNontex('100,000');
+    setNontex('1,200,000');
     setDepend(1);
     setYouth(0);
+
+    setResult(false);
   }
+
+  const handleSubmit = () => {
+    var number = uncomma(salary) - uncomma(nontax);
+    var nation = number * 0.045 / 12;
+    setTax([
+      ...tax,
+      {
+        id: tax.length,
+        value: nation.toLocaleString('en') + ' 원'
+      }
+    ]);
+
+    setResult(true);
+  }
+
   return (
   <div>
     <div className="container">
@@ -197,7 +218,7 @@ const CalcContainer = () => {
         <div className="col col-12 ml-2 pt-3">
           <div className="card">
             <div className="card-body">
-              This is some text within a card body.
+              국민연금(4.5%): {tax[0].value}
             </div>
           </div>
         </div>
@@ -211,7 +232,7 @@ const CalcContainer = () => {
         <BsArrowCounterclockwise/> 초기화
       </button>
 
-      <button className="btn btn-info">
+      <button className="btn btn-info" onClick={handleSubmit}>
         계산하기
       </button>
       
