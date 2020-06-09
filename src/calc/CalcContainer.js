@@ -6,6 +6,9 @@ const CalcContainer = () => {
   const [cate,setCate] = useState('annual');
   const [salary,setSalary] = useState('');
   const [kor,setKor] = useState('');
+  const [nontax,setNontex] = useState('100,000');
+  const [depend,setDepend] = useState(1);
+  const [youth,setYouth] = useState(0);
 
   const switchAnM = (e) => {      //annual or monthly 
     setCate(e.target.value);
@@ -72,12 +75,46 @@ const CalcContainer = () => {
 
   }
 
+  const handleNontax = (e) => {
+    const re = /^[0-9\b]+$/;
+
+    if (e.target.value !== '' || re.test(e.target.value)) {
+      var temp = e.target.value;
+      
+      temp = uncomma(temp);
+
+      temp = Number(temp)
+      temp = temp.toLocaleString('en');
+
+      setNontex(temp);
+
+     
+    }
+    else if(e.target.value === '')
+    {
+      temp = e.target.value;
+      setNontex(temp);
+    }
+  }
+
+  const handleDepend = (e)=> {
+    var temp = e.target.value;
+    setDepend(temp);
+  }
+
+  const handleYouth = (e)=> {
+    var temp = e.target.value;
+    setYouth(temp)
+    console.log(temp)
+  }
+
   return (
 
     <div className="container">
       <div className="row">
         <div className="col text-center m-5">
-          <h1>A small salary 💰</h1>
+          {/* <h1>A small salary 💰</h1> */}
+          <h1>A secret 💰</h1>
         </div>
       </div>
 
@@ -97,30 +134,55 @@ const CalcContainer = () => {
           </div>
 
         </div>
-        <div className="col col-8 text-center">
+        <div className="col col-7 text-center ml-4">
 
-          <input type="text" className="form-control" placeholder="Text input"
+          <input type="text" className="form-control" placeholder="금액을 입력하세요."
             value={salary}
             onChange={handleSalary}
           />
 
         </div>
 
-        <div className="col col-2 text-center">
-          {kor}
-        </div>
+        
 
+      </div>
+      <div className = "row">
+      <div className="col col-2 text-center"></div>
+      
+        <div className="col col-7 ml-4 pt-2 bold">
+          <b>{kor}</b>
+        </div>
       </div>
 
       <div className="row">
-        <div className="col col-3 m-3">
+        <div className="col col-3 ml-4 pt-3">
           비과세액
         </div>
-        <div className="col col-3 m-3">
-          부양 가족 수
+        <div className="col col-3 pt-3">
+          부양가족 수
         </div>
-        <div className="col col-3 m-3">
+        <div className="col col-3 pt-3">
           20세 이하 자녀 수
+        </div>
+      </div>
+      <div className="row">
+        <div className="col col-3 ml-4 pt-2">
+          <input type="text" className="form-control" placeholder="최대 월 10만원"
+          value={nontax}
+          onChange={handleNontax}
+          />
+        </div>
+        <div className="col col-3 pt-2">
+          <input type="text" className="form-control" placeholder="본인 포함"
+            value={depend}
+            onChange={handleDepend}
+          />
+        </div>
+        <div className="col col-3 pt-2">
+          <input type="text" className="form-control" placeholder="부양가족 수 미만"
+            value={youth}
+            onChange={handleYouth}
+          />
         </div>
       </div>
     </div>
