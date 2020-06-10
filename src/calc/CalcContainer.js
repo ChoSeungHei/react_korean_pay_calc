@@ -127,11 +127,16 @@ const CalcContainer = () => {
 
   const handleSubmit = () => {
     var number = uncomma(salary) - uncomma(nontax);
+
     var nation = number * 0.045 / 12;
+    var health = number * 0.03335 / 12;
+    health = Math.floor(health);
+    
     setTax([
       {
         id: tax.length,
-        value: nation.toLocaleString('en') + ' 원'
+        value: nation.toLocaleString('en') + ' 원',
+        value2: health.toLocaleString('en') + ' 원'
       }
     ]);
 
@@ -218,6 +223,8 @@ const CalcContainer = () => {
           <div className="card">
             <div className="card-body">
               국민연금(4.5%): {tax[0].value}
+              <br/>
+              건강보험(3.335%): {tax[0].value2}
             </div>
           </div>
         </div>
