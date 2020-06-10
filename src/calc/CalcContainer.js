@@ -129,7 +129,6 @@ const CalcContainer = () => {
     var number = uncomma(salary) - uncomma(nontax);
     var nation = number * 0.045 / 12;
     setTax([
-      ...tax,
       {
         id: tax.length,
         value: nation.toLocaleString('en') + ' 원'
@@ -145,7 +144,7 @@ const CalcContainer = () => {
       <div className="row">
         <div className="col text-center m-5">
           {/* <h1>A small salary 💰</h1> */}
-          <h1>A secret 💰</h1>
+          <h1>A secret <span role="img" aria-label="money">💰</span> </h1>
         </div>
       </div>
 
