@@ -18,7 +18,14 @@ const CalcContainer = () => {
 
   const switchAnM = (e) => {      //annual or monthly 
     setCate(e.target.value);
-    console.log(cate);
+    if(e.target.value === 'monthly')
+    {
+      setNontex('100,000')
+    }
+    else
+    {
+      setNontex('1,200,000')
+    }
   }
 
   const uncomma = value => {    //delete comma from numbers
@@ -79,7 +86,7 @@ const CalcContainer = () => {
       viewKorean(temp);
       setSalary(temp);
     }
-
+    setResult(false)
   }
 
   const handleNontax = (e) => {
@@ -102,17 +109,20 @@ const CalcContainer = () => {
       temp = e.target.value;
       setNontex(temp);
     }
+    setResult(false)
   }
 
   const handleDepend = (e)=> {
     var temp = e.target.value;
     setDepend(temp);
+    setResult(false)
   }
 
   const handleYouth = (e)=> {
     var temp = e.target.value;
     setYouth(temp)
     console.log(temp)
+    setResult(false)
   }
 
   const handleReset = () => {
@@ -136,15 +146,41 @@ const CalcContainer = () => {
   const handleSubmit = () => {
     var number = uncomma(salary) - uncomma(nontax);
 
-    var nation = number * 0.045 / 12;   //국민연금
-    var health = number * 0.03335 / 12;   //건보료
-    var insurance = number * 0.08 / 12;
-    var recup = health * 0.1025;
+    if(cate === 'annual')
+    {
+      var nation = number * 0.045 / 12;   //국민연금
+      var health = number * 0.03335 / 12;   //건보료
+      var insurance = number * 0.008 / 12;  //고용보험
+      var recup = health * 0.1025;    //요양보험
+    }
+    else
+    {
+      var nation = number * 0.045;   //국민연금
+      var health = number * 0.03335;   //건보료
+      var insurance = number * 0.008; //고용보험
+      var recup = health * 0.1025;  //요양보험
+    }
 
     health = Math.floor(health);
     nation = Math.floor(nation);
     insurance = Math.floor(insurance);
     recup = Math.floor(recup);
+
+    var last = recup %10;
+    recup = recup - last;
+
+    last = insurance %10;
+    insurance = insurance - last;
+
+    last = nation %10;
+    nation = nation - last;
+
+    last = health %10;
+    health = health - last;
+
+    health = underZero(health);
+    insurance = underZero(insurance);
+    recup = underZero(recup);
 
     if(nation < 13500)    //국민연금 하한액
     {
@@ -154,10 +190,6 @@ const CalcContainer = () => {
     {
       nation = 218700;
     }
-
-    health = underZero(health);
-    insurance = underZero(insurance);
-    recup = underZero(recup);
 
     if(cate === 'annual')
     {
@@ -262,8 +294,7 @@ const CalcContainer = () => {
               <br/>
               건강보험(3.335%): {tax[0].value2}
               <br/>
-              요양보험(10.25%): {tax[0].value3}
-              <br/>
+              <div className="gray_font">&nbsp;&nbsp;└요양보험(10.25%): {tax[0].value3}</div>
               고용보험(0.8%): {tax[0].value4}
               <Income salary={tax[0].salary} depend={depend} youth={youth} />
             </div>
