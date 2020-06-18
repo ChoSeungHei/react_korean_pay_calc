@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../style/css/font.css';
 import '../style/css/style.css';
 import {BsArrowCounterclockwise} from 'react-icons/bs';
+import Income from './Income';
 
 const CalcContainer = () => {
   const [cate,setCate] = useState('annual');
@@ -125,18 +126,53 @@ const CalcContainer = () => {
     setResult(false);
   }
 
+  const underZero = (num) => {
+    if(num<0)
+      return 0;
+    else
+      return num;
+  }
+
   const handleSubmit = () => {
     var number = uncomma(salary) - uncomma(nontax);
 
-    var nation = number * 0.045 / 12;
-    var health = number * 0.03335 / 12;
+    var nation = number * 0.045 / 12;   //국민연금
+    var health = number * 0.03335 / 12;   //건보료
+    var insurance = number * 0.08 / 12;
+    var recup = health * 0.1025;
+
     health = Math.floor(health);
-    
+    nation = Math.floor(nation);
+    insurance = Math.floor(insurance);
+    recup = Math.floor(recup);
+
+    if(nation < 13500)    //국민연금 하한액
+    {
+      nation = 13500;
+    }
+    else if(nation>218700)    //국민연금 상한액
+    {
+      nation = 218700;
+    }
+
+    health = underZero(health);
+    insurance = underZero(insurance);
+    recup = underZero(recup);
+
+    if(cate === 'annual')
+    {
+      number = number / 12;
+    }
+    number = number / 1000;
+    number = Math.floor(number);
     setTax([
       {
         id: tax.length,
         value: nation.toLocaleString('en') + ' 원',
-        value2: health.toLocaleString('en') + ' 원'
+        value2: health.toLocaleString('en') + ' 원',
+        value3: recup.toLocaleString('en')+ ' 원',
+        value4 : insurance.toLocaleString('en') + ' 원',
+        salary : number
       }
     ]);
 
@@ -225,6 +261,11 @@ const CalcContainer = () => {
               국민연금(4.5%): {tax[0].value}
               <br/>
               건강보험(3.335%): {tax[0].value2}
+              <br/>
+              요양보험(10.25%): {tax[0].value3}
+              <br/>
+              고용보험(0.8%): {tax[0].value4}
+              <Income salary={tax[0].salary} depend={depend} youth={youth} />
             </div>
           </div>
         </div>
