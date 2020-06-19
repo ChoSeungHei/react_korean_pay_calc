@@ -152,7 +152,7 @@ const CalcContainer = () => {
       alert('비과세액이 월급(연봉)보다 큽니다.');
       return;
     }
-    
+
     if(cate === 'annual')
     {
       var nation = number * 0.045 / 12;   //국민연금
@@ -238,8 +238,7 @@ const CalcContainer = () => {
     <div className="container">
       <div className="row">
         <div className="col text-center m-5">
-          {/* <h1>A small salary 💰</h1> */}
-          <h1>A secret <span role="img" aria-label="money">💰</span> </h1>
+          <h1>2020 실 급여 계산기 <span role="img" aria-label="money">💰</span> </h1>
         </div>
       </div>
 
