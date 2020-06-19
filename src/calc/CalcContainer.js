@@ -15,6 +15,7 @@ const CalcContainer = () => {
   const [result,setResult] = useState(false);
 
   const [tax,setTax] = useState([]);
+  const [nonComma,setNonComma] = useState([]);
 
   const switchAnM = (e) => {      //annual or monthly 
     setCate(e.target.value);
@@ -144,8 +145,14 @@ const CalcContainer = () => {
   }
 
   const handleSubmit = () => {
+    
     var number = uncomma(salary) - uncomma(nontax);
-
+    if(number < 0)
+    {
+      alert('비과세액이 월급(연봉)보다 큽니다.');
+      return;
+    }
+    
     if(cate === 'annual')
     {
       var nation = number * 0.045 / 12;   //국민연금
@@ -155,10 +162,10 @@ const CalcContainer = () => {
     }
     else
     {
-      var nation = number * 0.045;   //국민연금
-      var health = number * 0.03335;   //건보료
-      var insurance = number * 0.008; //고용보험
-      var recup = health * 0.1025;  //요양보험
+      nation = number * 0.045;   //국민연금
+      health = number * 0.03335;   //건보료
+      insurance = number * 0.008; //고용보험
+      recup = health * 0.1025;  //요양보험
     }
 
     health = Math.floor(health);
@@ -191,6 +198,8 @@ const CalcContainer = () => {
       nation = 218700;
     }
 
+    var salary2 = uncomma(salary);
+
     if(cate === 'annual')
     {
       number = number / 12;
@@ -207,6 +216,19 @@ const CalcContainer = () => {
         salary : number
       }
     ]);
+
+    setNonComma([
+      {
+        id: tax.length,
+        nation: nation,
+        health: health,
+        recup: recup,
+        insurance : insurance,
+        number: number,
+        salary: salary2,
+        cate: cate
+      }
+    ])
 
     setResult(true);
   }
@@ -296,7 +318,7 @@ const CalcContainer = () => {
               <br/>
               <div className="gray_font">&nbsp;&nbsp;└요양보험(10.25%): {tax[0].value3}</div>
               고용보험(0.8%): {tax[0].value4}
-              <Income salary={tax[0].salary} depend={depend} youth={youth} />
+              <Income tax={nonComma} depend={depend} youth={youth} />
             </div>
           </div>
         </div>

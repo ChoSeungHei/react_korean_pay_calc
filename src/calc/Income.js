@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../style/css/font.css';
 import '../style/css/style.css';
@@ -9,10 +9,10 @@ const Income = props => {
     console.log(member);
     var tax = '-';
     var countryTax = 0;
-    if(props.salary >=770 && props.salary <=10000)
+    if(props.tax[0].number >=770 && props.tax[0].number <=10000)
     {
         data.forEach(element => {
-            if(props.salary>=element.over && props.salary < element.under)
+            if(props.tax[0].number>=element.over && props.tax[0].number < element.under)
             {
                 while(tax === '-')
                 {
@@ -67,11 +67,11 @@ const Income = props => {
             }
         });
     }
-    else if(props.salary < 770)
+    else if(props.tax[0].number < 770)
     {
         tax=0;
     }
-    else if(props.salary > 10000)
+    else if(props.tax[0].number > 10000)
     {
         var element = data.find(val=>val.over === 10000);
         while(tax === '-')
@@ -118,39 +118,39 @@ const Income = props => {
         }
         tax = tax.replace(/[^\d]+/g, '');
         var temp = 0;
-        if(props.salary>10000 &&props.salary<=14000)
+        if(props.tax[0].number>10000 &&props.tax[0].number<=14000)
         {
-            var seed = props.salary - 10000;
+            var seed = props.tax[0].number - 10000;
             seed = seed * 0.98 * 0.35 * 1000;
             temp = Number(tax) + Number(seed);
         }
-        else if(props.salary>14000 && props.salary <= 28000)
+        else if(props.tax[0].number>14000 && props.tax[0].number <= 28000)
         {
-            var seed = props.salary - 14000;
+            seed = props.tax[0].number - 14000;
             seed = seed * 0.98 * 0.38 * 1000;
             seed = seed + 1372000;
 
             temp = Number(tax) + Number(seed);
         }
-        else if(props.salary>28000 && props.salary <= 30000)
+        else if(props.tax[0].number>28000 && props.tax[0].number <= 30000)
         {
-            var seed = props.salary - 28000;
+            seed = props.tax[0].number - 28000;
             seed = seed * 0.98 * 0.40 * 1000;
             seed = seed + 6585600;
 
             temp = Number(tax) + Number(seed);
         }
-        else if(props.salary>30000 && props.salary <= 45000)
+        else if(props.tax[0].number>30000 && props.tax[0].number <= 45000)
         {
-            var seed = props.salary - 30000;
+            seed = props.tax[0].number - 30000;
             seed = seed * 0.40 * 1000;
             seed = seed + 7385600;
 
             temp = Number(tax) + Number(seed);
         }
-        else if(props.salary>45000)
+        else if(props.tax[0].number>45000)
         {
-            var seed = props.salary - 45000;
+            seed = props.tax[0].number - 45000;
             seed = seed * 0.42 * 1000;
             seed = seed + 13385600;
 
@@ -168,11 +168,47 @@ const Income = props => {
         countryTax = countryTax.toLocaleString('en');
         tax = tax.toLocaleString('en');
     }
+    var n_tax = tax;
+    var n_country = countryTax;
 
+    if(tax.length>3)
+    {
+        n_tax = tax.replace(/[^\d]+/g, '');
+        n_country = countryTax.replace(/[^\d]+/g, '');
+    }
+    
+
+    var prime = props.tax[0].salary;
+    if(props.tax[0].cate === 'annual')
+    {
+        prime = prime/12;
+    }
+
+    var montly_income = prime - props.tax[0].nation - props.tax[0].health - props.tax[0].recup - props.tax[0].insurance - n_tax - n_country;
+    var annual_income = montly_income * 12;
+
+    montly_income = Math.floor(montly_income);
+    annual_income = Math.floor(annual_income);
+
+    montly_income = montly_income.toLocaleString('en');
+    annual_income = annual_income.toLocaleString('en');
+
+    console.log(props.tax[0].cate);
     return (
         <div>
             <div>근로소득세(간이세액): {tax} 원</div>
             <div className='gray_font'>&nbsp;&nbsp;└지방소득세(10%): {countryTax} 원</div>
+            <br/>
+            {
+                props.tax[0].cate === 'annual' ? (
+                    <div>
+                        <div className="red_result">연 실제 수령액: {annual_income}</div>
+                        <div className="red">&nbsp;└월 환산 금액: {montly_income}</div>
+                    </div>
+                ): props.tax[0].cate === 'monthly' ? (
+                    <div className="red_result">월 실제 수령액: {montly_income}</div>
+                ):null
+            }
         </div>
     )
 }
