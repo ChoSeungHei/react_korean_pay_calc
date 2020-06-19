@@ -202,11 +202,11 @@ const Income = props => {
             {
                 props.tax[0].cate === 'annual' ? (
                     <div>
-                        <div className="red_result">연 실제 수령액: {annual_income}</div>
-                        <div className="red">&nbsp;└월 환산 금액: {montly_income}</div>
+                        <div className="red_result">연 실제 수령액: {annual_income} 원</div>
+                        <div className="red">&nbsp;└월 환산 금액: {montly_income} 원</div>
                     </div>
                 ): props.tax[0].cate === 'monthly' ? (
-                    <div className="red_result">월 실제 수령액: {montly_income}</div>
+                    <div className="red_result">월 실제 수령액: {montly_income} 원</div>
                 ):null
             }
         </div>
