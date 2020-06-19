@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0c814b929bd8246a283c6ba7c5d86975",
+    "revision": "adc81ebb2c1ac7502a8516fb6cd63c48",
     "url": "/react_korean_pay_calc/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react_korean_pay_calc/static/css/2.829c9cb5.chunk.css"
   },
   {
-    "revision": "a0ff2b15b0c7110f36ff",
+    "revision": "71c47d0d26388324ab3b",
     "url": "/react_korean_pay_calc/static/css/main.8324fdd1.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react_korean_pay_calc/static/js/2.a9bb9162.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a0ff2b15b0c7110f36ff",
-    "url": "/react_korean_pay_calc/static/js/main.af893a99.chunk.js"
+    "revision": "71c47d0d26388324ab3b",
+    "url": "/react_korean_pay_calc/static/js/main.be5f2b1c.chunk.js"
   },
   {
     "revision": "52eadb5bbbd78c9ab414",
