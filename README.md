@@ -2,7 +2,7 @@
 
 It helps calculate tax.
 -----------------------
-[SAMPLE] (https://choseunghei.github.io/react_korean_pay_calc/)
+[SAMPLE](https://choseunghei.github.io/react_korean_pay_calc/)
 
 ## How to use
 
